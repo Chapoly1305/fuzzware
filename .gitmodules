@@ -3,4 +3,4 @@
 	url = ../fuzzware-pipeline
 [submodule "emulator"]
 	path = emulator
-	url = ../fuzzware-emulator
+	url = https://github.com/Chapoly1305/fuzzware-emulator.git
