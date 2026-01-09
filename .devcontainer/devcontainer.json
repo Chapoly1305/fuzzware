@@ -1,0 +1,61 @@
+{
+    "name": "Fuzzware Development",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "workspaceFolder": "/workspaces/fuzzware",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/fuzzware,type=bind,consistency=cached",
+    "remoteUser": "vscode",
+    "containerUser": "vscode",
+
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.debugpy",
+                "ms-vscode.cpptools",
+                "eamodio.gitlens",
+                "usernamehw.errorlens",
+                "gruntfuggly.todo-tree",
+                "streetsidesoftware.code-spell-checker"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/bin/python3",
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "files.watcherExclude": {
+                    "**/emulator/afl/**": true,
+                    "**/emulator/AFLplusplus/**": true
+                }
+            }
+        }
+    },
+
+    "mounts": [
+        "source=fuzzware-venv,target=/home/vscode/.virtualenvs,type=volume"
+    ],
+
+    "postCreateCommand": ".devcontainer/post-create.sh",
+    "postStartCommand": "sudo service redis-server start",
+
+    "containerEnv": {
+        "FUZZWARE": "/workspaces/fuzzware",
+        "WORKON_HOME": "/home/vscode/.virtualenvs",
+        "VIRTUALENVWRAPPER_PYTHON": "/usr/bin/python3"
+    },
+
+    "runArgs": [
+        "--cap-add=SYS_PTRACE",
+        "--security-opt", "seccomp=unconfined"
+    ],
+
+    "forwardPorts": [],
+
+    "shutdownAction": "stopContainer"
+}
